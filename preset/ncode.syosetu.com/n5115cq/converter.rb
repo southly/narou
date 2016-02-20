@@ -12,6 +12,11 @@ converter "n5115cq 最果てのパラディン" do
   # 各種変換処理がされる「前」の生データに対しての変換処理を記述
   def before(io, text_type)
     super
+    if @current_index == 0 && text_type == "subtitle"
+      index = 63
+      @inspector.info("ページをスキップ\n" + @subtitles[index]["href"] + "：" + @subtitles[index]["subtitle"])
+      @subtitles.delete_at(index)
+    end
     if text_type == "body"
       io.string.gsub!("|《命ず》、《ネー・》", "|《命ず》《ネー・》、")
       io.string.gsub!(/[|｜]《([^《》]+)》《((?:\p{Hiragana}|\p{Katakana}|[・ー])+)》/) do |match|
