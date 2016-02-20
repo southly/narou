@@ -120,6 +120,10 @@ class Inspector
               "特殊な用途(手紙形式)等でかぎ括弧が使われている可能性があります。\n" +
             omit_message(raw_strings))
       error_result = true
+    # 改行で単語を区切っているケースのために注意喚起
+    when raw_strings.match(/[^\n 　。、．，!?)！？…―）」』〉≫】〕”〟]\n/)
+      info("行が区切りっぽい文字で終わっていません。\n" +
+            omit_message(raw_strings))
     end
     error_result
   end
